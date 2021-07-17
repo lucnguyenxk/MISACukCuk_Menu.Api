@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces.IRespository
 {
-    public interface IMenuGroupRepository : IBaseRepository<MenuGroup>
+    public interface IServiceHobbyRepository :IBaseRepository<ServiceHobby>
     {
-        
     }
 }

@@ -40,27 +40,27 @@ namespace MISACukCuk.Controllers
         /// 200 -  lấy dữ liệu thành công
         /// </returns>
         /// created by ndluc(12/06/2021)
-        [HttpGet("GetPaging")]
-        public IActionResult GetPaging(int PageSize, int PageNumber, string Sort, List<FilterData> listFilters)
+        [HttpPost("GetPaging")]
+        public IActionResult GetPaging(int PageSize, int PageNumber, string Sort, ListObjectFilter objectFilter)
         {
             try
             {
                 var totalRecord = 0;
-                var res = iBaseService.GetPaging(PageSize, PageNumber, Sort, listFilters, ref totalRecord);
+                var res = iBaseService.GetPaging(PageSize, PageNumber, Sort, objectFilter.ListFilterData, ref totalRecord);
                 if (res.Count() == 0)
                 {
-                    var actionResult = new Services.Entities.ActionResult(204, "Không có dữ liệu trả về", "", 0);
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", 0);
                     return Ok(actionResult);
                 }
                 else
                 {
-                    var actionResult = new Services.Entities.ActionResult(200, "Lấy dữ liệu thành công", "", res, totalRecord);
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "", res, totalRecord);
                     return Ok(actionResult);
                 }
             }
             catch (Exception exception)
             {
-                var actionResult = new Services.Entities.ActionResult(500, "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp",exception.Message, 0);
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, 0);
                 return Ok(actionResult);
             }
 
@@ -82,12 +82,12 @@ namespace MISACukCuk.Controllers
                 var res = iBaseService.GetAll();
                 if(res.Count() > 0)
                 {
-                    var actionResult = new Services.Entities.ActionResult(200, "Lấy dữ liệu thành công", "", res);
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "", res);
                     return Ok(actionResult);
                 }
                 else
                 {
-                    var actionResult = new Services.Entities.ActionResult(204, "Không có dữ liệu trả về", "", 0);
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", 0);
                     return Ok(actionResult);
                 }
             }
@@ -98,7 +98,7 @@ namespace MISACukCuk.Controllers
             }
             catch(Exception exception)
             {
-                var actionResult = new Services.Entities.ActionResult(500, "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp", exception.Message, 0);
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, 0);
                 return Ok(actionResult);
             }
 
@@ -120,18 +120,18 @@ namespace MISACukCuk.Controllers
                 var res = iBaseRepository.GetById(id);
                 if (res != null)
                 {
-                    var actionResult = new Services.Entities.ActionResult(200, "Lấy dữ liệu thành công", "", res);
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "", res);
                     return Ok(actionResult);
                 }
                 else
                 {
-                    var actionResult = new Services.Entities.ActionResult(204, "Không có dữ liệu trả về", "", 0);
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", 0);
                     return Ok(actionResult);
                 }
             }
             catch(Exception exception)
             {
-                var actionResult = new Services.Entities.ActionResult(500, "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp", exception.Message, 0);
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, 0);
                 return Ok(actionResult);
             }
             
@@ -153,12 +153,12 @@ namespace MISACukCuk.Controllers
                 var res = iBaseService.Insert(entity);
                 if (res > 0)
                 {
-                    var actionResult = new Services.Entities.ActionResult(200, "Thêm dữ liệu thành công", "", res);
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "", res);
                     return Ok(actionResult);
                 }
                 else
                 {
-                    var actionResult = new Services.Entities.ActionResult(204, "Thêm mới không thành công", "", 0);
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", 0);
                     return Ok(actionResult);
                 }
             }
@@ -170,7 +170,7 @@ namespace MISACukCuk.Controllers
             }
             catch (Exception exception)
             {
-                var actionResult = new Services.Entities.ActionResult(500, "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp", exception.Message, 0);
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, 0);
                 return Ok(actionResult);
             }
         }
@@ -193,12 +193,12 @@ namespace MISACukCuk.Controllers
                 var res = iBaseService.Update(id,entity);
                 if (res > 0)
                 {
-                    var actionResult = new Services.Entities.ActionResult(200, "Sửa dữ liệu thành công", "", res);
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "", res);
                     return Ok(actionResult);
                 }
                 else
                 {
-                    var actionResult = new Services.Entities.ActionResult(204, "Sửa không thành công", "", 0);
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", 0);
                     return Ok(actionResult);
                 }
             }
@@ -209,7 +209,7 @@ namespace MISACukCuk.Controllers
             }
             catch (Exception exception)
             {
-                var actionResult = new Services.Entities.ActionResult(500, "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp", exception.Message, 0);
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, 0);
                 return Ok(actionResult);
             }
         }
@@ -230,12 +230,12 @@ namespace MISACukCuk.Controllers
                 var res = iBaseService.Delete(id);
                 if (res > 0)
                 {
-                    var actionResult = new Services.Entities.ActionResult(200, "Xóa dữ liệu thành công", "", res);
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "", res);
                     return Ok(actionResult);
                 }
                 else
                 {
-                    var actionResult = new Services.Entities.ActionResult(204, "Xóa không thành công", "", 0);
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", 0);
                     return Ok(actionResult);
                 }
             }
@@ -246,7 +246,7 @@ namespace MISACukCuk.Controllers
             }
             catch (Exception exception)
             {
-                var actionResult = new Services.Entities.ActionResult(500, "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp", exception.Message, 0);
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, 0);
                 return Ok(actionResult);
             }
         }

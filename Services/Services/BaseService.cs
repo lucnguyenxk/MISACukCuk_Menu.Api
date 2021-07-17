@@ -47,12 +47,12 @@ namespace Services.Services
             {
                 var indexOfFilterData = 1;
                 foreach(var filterData in listFilters)
-                {
+                    {
                     
                     if (filterData.FilterValue is not null)
                     {
                         //thực hiện nối mệnh đề
-                        if (indexOfFilterData < listFilters.Count() && indexOfFilterData > 1)
+                        if (indexOfFilterData < listFilters.Count()+1 && indexOfFilterData > 1)
                         {
                             WhereClause.Append(" And ");
                         }
@@ -89,6 +89,7 @@ namespace Services.Services
                     indexOfFilterData++;
                 }
             }
+            if (Sort == "") Sort = "CreatedDate Desc";
             var entities = iBaseRepostitory.GetPaging(PageSize, PageNumber, WhereClause.ToString(), Sort, ref TotalRecord);
             return entities;
         }

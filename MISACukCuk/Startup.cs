@@ -56,6 +56,8 @@ namespace MISACukCuk
             services.AddScoped<IUnitRepository, UnitRepository>();
             services.AddScoped<IProcessAreaService, ProcessAreaService>();
             services.AddScoped<IProcessAreaRepository, ProcessAreaRepository>();
+            services.AddScoped<IServiceHobbyService, ServiceHobbyService>();
+            services.AddScoped<IServiceHobbyRepository, ServiceHobbyRepository>();
 
 
         }
@@ -69,6 +71,7 @@ namespace MISACukCuk
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MISACukCuk v1"));
             }
+
 
             app.UseHttpsRedirection();
 

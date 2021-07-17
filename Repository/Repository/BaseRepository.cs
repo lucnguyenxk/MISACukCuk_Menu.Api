@@ -83,7 +83,7 @@ namespace Repository.Repository
                 param.Add("PageNumber", PageNumber);
                 param.Add("PageSize", PageSize);
                 param.Add("WhereClause", WhereClause);
-                param.Add("Sort", Sort);
+                param.Add("Sort", Sort);    
                 var totalRecord =0;
                 param.Add("TotalRecord",totalRecord ,null, ParameterDirection.Output);
                 var result = _dbConnection.Query<MISAEntities>(SqlCommand, param: param, commandType: CommandType.StoredProcedure);

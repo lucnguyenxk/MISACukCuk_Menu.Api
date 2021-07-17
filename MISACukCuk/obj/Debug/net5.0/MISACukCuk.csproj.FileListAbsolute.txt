@@ -33,3 +33,5 @@ C:\Users\manhd\source\repos\MISACukCuk\MISACukCuk\obj\Debug\net5.0\MISACukCuk.dl
 C:\Users\manhd\source\repos\MISACukCuk\MISACukCuk\obj\Debug\net5.0\ref\MISACukCuk.dll
 C:\Users\manhd\source\repos\MISACukCuk\MISACukCuk\obj\Debug\net5.0\MISACukCuk.pdb
 C:\Users\manhd\source\repos\MISACukCuk\MISACukCuk\obj\Debug\net5.0\MISACukCuk.genruntimeconfig.cache
+C:\Users\manhd\source\repos\MISACukCuk\MISACukCuk\obj\Debug\net5.0\MISACukCuk.Properties.Resources.resources
+C:\Users\manhd\source\repos\MISACukCuk\MISACukCuk\obj\Debug\net5.0\MISACukCuk.csproj.GenerateResource.cache

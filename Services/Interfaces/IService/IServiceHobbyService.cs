@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Interfaces.IRespository
+namespace Services.Interfaces.IService
 {
-    public interface IMenuGroupRepository : IBaseRepository<MenuGroup>
+    public interface IServiceHobbyService : IBaseService<ServiceHobby>
     {
-        
     }
 }

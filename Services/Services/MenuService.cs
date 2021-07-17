@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Services.Services
@@ -40,31 +41,13 @@ namespace Services.Services
             if (entity.ListServiceHobby.Count > 0)
             {
                 return InsertOrUpDateMenu(entity);
-                ////Biến tính tổng số lượng đối tượng được thêm vào
-                //var numberOfMenuInsert=0;
-                //// validate đối tượng 
-                //base.Validate(entity);
-                //// Kiểm tra và lấy về đối tượng con của thực đơn;
-                //var listChildObjects = CheckObjectChildren(entity);
-                
-                //// tách riêng cha con để thêm vào bảng
-                //entity.ListServiceHobby = null;
-                
-                //// lấy id của cha cho con
-                //foreach(var child in listChildObjects)
-                //{
-                //    child.MenuId = entity.MenuId;
-                //}
-                //// thêm mới thực đơn master
-                //numberOfMenuInsert = iMenuRepository.Insert(entity);
-                //// thêm mới đối tượng con
-                //numberOfMenuInsert += iServiceHobbyRepository.InsertList(listChildObjects, "ServiceHobbyToMenu");
-                //return numberOfMenuInsert;
-
             }
             else
             {
-                return base.Insert(entity);
+                
+                var res= base.Insert(entity);
+                AddOrUpdatePrefixCode(entity);
+                return res;
             }
         }
 
@@ -77,6 +60,7 @@ namespace Services.Services
             }
             else
             {
+                AddOrUpdatePrefixCode(entity);
                 iServiceHobbyRepository.DeleteById(id,"ServiceHobbyToMenu","Menu");
                 return base.Update(id, entity);
             }
@@ -172,6 +156,7 @@ namespace Services.Services
                 iServiceHobbyRepository.DeleteById(entity.MenuId, "ServiceHobbyToMenu","Menu");
                 numberOfMenuInsert = iMenuRepository.Update(entity.MenuId, entity);
             }
+            AddOrUpdatePrefixCode(entity);
             // thêm mới đối tượng con
             numberOfMenuInsert += iServiceHobbyRepository.InsertList(listChildObjects, "ServiceHobbyToMenu");
             return numberOfMenuInsert;
@@ -183,6 +168,83 @@ namespace Services.Services
             var res = iServiceHobbyRepository.DeleteById(id, "ServiceHobbyToMenu", "Menu");
             res += base.Delete(id);
             return res;
+        }
+        /// <summary>
+        /// nhận và xử lí tên thực đơn để lấy mã mới cho thực đơn 
+        /// </summary>
+        /// <param name="nameOfMenu">Tên thực đơn cần lấy mã</param>
+        /// <returns>Mã mới cho thực đơn</returns>
+        public string getNewCode()
+        {
+            var nameOfMenu = "";
+            var ValueOfCode = 0;
+            //lấy ra prefix và giá trị lớn nhẩt : cái nameOfMenu không cần nên có thể bỏ đi nhé, e lười sửa
+            var prefix = iMenuRepository.GetNewCode(nameOfMenu, ref ValueOfCode);
+            //trả ra code mới 
+            return prefix + (ValueOfCode + 1).ToString();
+        }
+        
+        /// <summary>
+        /// Xoá hết số ở cuỗi mỗi mã để cập nhật prefix hoặc sinh mã mới: cắt hết số ở cuối thì sẽ còn lại prefix
+        /// </summary>
+        /// <param name="text">mã cần cắt</param>
+        /// <param name="valuePrefix">giá trị ứnng với prefix </param>
+        /// <returns>
+        /// text :lấy ra string là prefix của mã gửi lên
+        /// valuePrefix : giá trị của code
+        /// </returns>
+        public string RemoveNumberAtLastIndex(string text, ref int valuePrefix)
+        {
+            var indexToCheckRemove = text.Length-1;
+            var value = 0;
+            var count = 0;
+            while(indexToCheckRemove >= 0)
+            {
+                var isNumber = 0;
+                if(int.TryParse(text[indexToCheckRemove].ToString(),out isNumber))
+                {
+                    if (isNumber != 0)
+                    {
+                        value = (int)(isNumber * Math.Pow(10,count)  + value);
+                    }
+
+                    count++;
+                    text = text.Remove(indexToCheckRemove);
+                    indexToCheckRemove--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            valuePrefix = value;
+            return text;
+        }
+
+        /// <summary>
+        /// update prefix khi thêm mới hoặc sửa
+        /// </summary>
+        /// <param name="entity">đối tượng cần thêm mới hoặc sửa</param>
+        public void AddOrUpdatePrefixCode(Menu entity)
+        {
+            var valuePrefix = 0;
+            var valueOfCode = 0;
+
+            //Lấy prefix của code gủi lên xem có đúng với prefix mặc định ko
+            var prefix = RemoveNumberAtLastIndex(entity.MenuCode, ref valuePrefix);
+
+            // lấy prefix mặc định của bảng và giá trị lớn nhất đang trong bảng
+            var checkPrefix = iMenuRepository.GetNewCode(prefix,ref valueOfCode);
+
+            // kiểm tra nếu prefix trùng thì update giá trị của prefix
+            if (prefix.Trim() == checkPrefix.Trim())
+            {
+                if(valuePrefix > valueOfCode)
+                {
+                    valueOfCode = valuePrefix;
+                    iMenuRepository.UpDatePrefix(prefix, valueOfCode);
+                }
+            }            
         }
         #endregion
     }

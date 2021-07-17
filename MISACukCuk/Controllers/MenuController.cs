@@ -20,5 +20,36 @@ namespace MISACukCuk.Controllers
             iMenuRepository = _iMenuRepository;
             iMenuService = _iMenuService;
         }
+
+        /// <summary>
+        /// Lấy code mới cho thực đơn
+        /// </summary>
+        /// <param name="NameOfMenu">Tên của thực đơn để lấy code</param>
+        /// <returns>Code của thực đơn</returns>
+        [HttpGet("GetNewCode")]
+        public IActionResult GetNewCode()
+        {
+            try
+            {
+                var newCode = iMenuService.getNewCode();
+                if (!String.IsNullOrEmpty(newCode))
+                {
+                    var actionResult = new Services.Entities.ActionResult(200, Properties.Resources.SuccedStatus, "",newCode);
+                    return Ok(actionResult);
+                }
+                else
+                {
+                    var actionResult = new Services.Entities.ActionResult(204, Properties.Resources.NoData, "", newCode);
+                    return Ok(actionResult);
+                }    
+            }
+            catch(Exception exception)
+            {
+                var actionResult = new Services.Entities.ActionResult(500, Properties.Resources.SystemErr, exception.Message, "");
+                return Ok(actionResult);
+            }
+            
+        }
+
     }
 }

@@ -30,7 +30,7 @@ namespace Services.Entities
         /// Mã thực đơn
         /// </summary>
         /// created by ndluc(07/07/2021)
-        [NonDuplicate("Mã thực đơn {0} đã tồn tại trong hệ thống!")]
+        [NonDuplicate("Mã thực đơn <{0}> đã tồn tại trong hệ thống,vui lòng kiểm tra lại!")]
         public string MenuCode { get; set; }
 
 
@@ -102,6 +102,17 @@ namespace Services.Entities
         /// created by ndluc(08/07/2021)
         public List<ServiceHobby> ListServiceHobby { get; set; }
 
-        
+        /// <summary>
+        /// Mã do Server gửi cho người dùng
+        /// </summary>
+        /// created by ndluc(14/07/2021)
+        public string ServerCode { get; set; }
+
+        /// <summary>
+        /// Tiền tố của mã thực đơn
+        /// </summary>
+        /// created by ndluc(14/07/2021)
+        public string PrefixCode { get; set; }
+
     }
 }

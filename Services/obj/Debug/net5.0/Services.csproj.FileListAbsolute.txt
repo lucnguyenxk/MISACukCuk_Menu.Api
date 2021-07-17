@@ -10,3 +10,5 @@ C:\Users\manhd\source\repos\MISACukCuk\Services\obj\Debug\net5.0\Services.csproj
 C:\Users\manhd\source\repos\MISACukCuk\Services\obj\Debug\net5.0\Services.dll
 C:\Users\manhd\source\repos\MISACukCuk\Services\obj\Debug\net5.0\ref\Services.dll
 C:\Users\manhd\source\repos\MISACukCuk\Services\obj\Debug\net5.0\Services.pdb
+C:\Users\manhd\source\repos\MISACukCuk\Services\obj\Debug\net5.0\Services.Properties.Resources.resources
+C:\Users\manhd\source\repos\MISACukCuk\Services\obj\Debug\net5.0\Services.csproj.GenerateResource.cache
